@@ -1,6 +1,6 @@
-module github.com/skhatri/k8s-read
+module github.com/skhatri/kube-sailmaker-release
 
-go 1.13
+go 1.13.9
 
 require (
 	github.com/skhatri/api-router-go v0.4.0

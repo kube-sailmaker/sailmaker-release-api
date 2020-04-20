@@ -3,7 +3,7 @@ package controller
 import (
 	"github.com/skhatri/api-router-go/router"
 	"github.com/skhatri/api-router-go/router/model"
-	"github.com/skhatri/k8s-read/k8s/middleware"
+	"github.com/skhatri/kube-sailmaker-release/k8s/middleware"
 )
 
 func fetchDeployments(web *router.WebRequest) *model.Container {

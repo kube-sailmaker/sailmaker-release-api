@@ -7,7 +7,7 @@ This app acts as the glue between sailmaker deployer proxy and kubernetes. It ha
 ```
 go mod vendor
 go build
-./k8s-read --port=6200
+./kube-sailmaker-release serve --port=6264
 ```
 
 ### List Deployments

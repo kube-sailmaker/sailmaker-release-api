@@ -3,7 +3,7 @@ package controller
 import (
 	"fmt"
 	"github.com/skhatri/api-router-go/router"
-	"github.com/skhatri/k8s-read/test"
+	"github.com/skhatri/kube-sailmaker-release/test"
 	"testing"
 )
 

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"github.com/skhatri/api-router-go/router"
 	"github.com/skhatri/api-router-go/router/model"
-	"github.com/skhatri/k8s-read/k8s/middleware"
+	"github.com/skhatri/kube-sailmaker-release/k8s/middleware"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
