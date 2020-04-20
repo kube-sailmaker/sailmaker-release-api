@@ -1,0 +1,17 @@
+apiVersion: world.io/v1alpha1
+kind: City
+metadata:
+  name: s-cities
+  labels:
+    starts-with: "S"
+  annotations:
+    weather: "great"
+    living-expense: "high"
+spec:
+  apps:
+    - name: sydney
+      country: Australia
+
+    - name: san francisco
+      country: USA
+

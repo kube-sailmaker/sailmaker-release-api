@@ -25,6 +25,20 @@ Output:
   }]
 }
 ```
+
+
+### CRD Setup
+Add Sample CRDs
+```
+	kubectl apply -f scripts/crd/cities.yaml
+	kubectl apply -f scripts/crd/releaserequest.yaml
+```
+
+### Add CRD Type Instances
+```
+  kubectl apply -f scripts/instances
+```
+
 ### List Custom Resource Definitions
 GET /api/crds
 ```

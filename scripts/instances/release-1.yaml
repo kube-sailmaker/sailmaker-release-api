@@ -1,0 +1,15 @@
+apiVersion: deploy.kubesailmaker.io/v1alpha1
+kind: ReleaseRequest
+metadata:
+  name: release-1
+spec:
+  apps:
+    - name: adimono
+      version: 1.0
+
+    - name: forcg
+      version: 1.0
+
+    - name: forcg
+      version: 1.0
+      alias: forcg-2
