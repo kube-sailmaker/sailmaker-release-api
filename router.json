@@ -8,6 +8,10 @@
     "access-control-max-age": "7200"
   },
   "toggles": {
-    "daemonset_endpoint": true
+    "daemonset_endpoint": true,
+    "can_write_crds": true,
+    "can_read_crds": true
+  },
+  "variables": {
   }
 }
