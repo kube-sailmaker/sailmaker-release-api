@@ -64,7 +64,7 @@ func GetDynamicClient() *dynamic.Interface {
 
 func initialize() {
 	mut.Lock()
-	defer 	mut.Unlock()
+	defer mut.Unlock()
 
 	var cfg *rest.Config
 	var err error

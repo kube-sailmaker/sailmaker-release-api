@@ -13,8 +13,7 @@ type NamespaceList struct {
 //GetNamespace returns list of namespaces in the current cluster
 func GetNamespace() (*NamespaceList, error) {
 	client := client.GetClient()
-	namespaceList, nameErr := client.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{
-	})
+	namespaceList, nameErr := client.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
 	if nameErr != nil {
 		return nil, nameErr
 	}

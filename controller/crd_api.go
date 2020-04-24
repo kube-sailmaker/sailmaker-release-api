@@ -15,8 +15,12 @@ func getCrdInstance(web *router.WebRequest) *model.Container {
 		Group:    web.GetQueryParam("resource-group"),
 		Version:  web.GetQueryParam("resource-version"),
 	}
+	resourceName := ""
+	if resourceName = web.GetPathParam("resource_name"); resourceName == "" {
+		resourceName = web.GetQueryParam("resource-name")
+	}
 	cres, err := middleware.GetCrdByName(
-		web.GetQueryParam("namespace"), gvr, web.GetQueryParam("resource-name"))
+		web.GetQueryParam("namespace"), gvr, resourceName)
 	if err != nil {
 		return model.ErrorResponse(model.MessageItem{
 			Code:    "crd get error",

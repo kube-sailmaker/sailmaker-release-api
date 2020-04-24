@@ -189,13 +189,13 @@ type CrdSummary struct {
 }
 
 type CrdInstanceInput struct {
-	Name      string      `json:"name"`
-	Namespace string      `json:"namespace"`
-	Spec      interface{} `json:"spec"`
-	CrdKind string `json:"kind"`
-	CrdVersion string `json:"version"`
-	CrdName string `json:"crd-name"`
-	CrdGroup string `json:"group-name"`
+	Name       string      `json:"name"`
+	Namespace  string      `json:"namespace"`
+	Spec       interface{} `json:"spec"`
+	CrdKind    string      `json:"kind"`
+	CrdVersion string      `json:"version"`
+	CrdName    string      `json:"crd-name"`
+	CrdGroup   string      `json:"group-name"`
 }
 
 type CustomResourceResponse struct {

@@ -27,25 +27,24 @@ func (mc *MockApiConfigurer) Post(uri string, hf router.HandlerFunc) router.ApiC
 }
 
 func (mc *MockApiConfigurer) Method(method string, uri string, hf router.HandlerFunc) router.ApiConfigurer {
-	mc.m[makeKey(method,uri)] = hf
+	mc.m[makeKey(method, uri)] = hf
 	return mc
 }
 
 func (mc *MockApiConfigurer) GetIf(cond bool) *router.ConditionalMethodBuilder {
 	return &router.ConditionalMethodBuilder{
-		Method: "GET",
+		Method:   "GET",
 		Check:    cond,
 		Delegate: nil,
 	}
 }
 func (mc *MockApiConfigurer) PostIf(cond bool) *router.ConditionalMethodBuilder {
 	return &router.ConditionalMethodBuilder{
-		Method: "POST",
+		Method:   "POST",
 		Check:    cond,
 		Delegate: nil,
 	}
 }
-
 
 func TestRegistersApis(t *testing.T) {
 	m := make(map[string]router.HandlerFunc)
