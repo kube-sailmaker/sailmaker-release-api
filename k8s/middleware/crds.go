@@ -166,6 +166,65 @@ func CreateCustomResourceInstance(crdInstanceInput *CrdInstanceInput) (*CustomRe
 	}, nil
 }
 
+//CreateeCustomResourceInstance register an instance of a releasereequest
+func UpdateCustomResourceInstance(metadata map[string]interface{}, crdInstanceInput *CrdInstanceInput) (*CustomResourceResponse, error) {
+	requestKind := crdInstanceInput.CrdKind
+	crdVersion := crdInstanceInput.CrdVersion
+	crdName := crdInstanceInput.CrdName
+	crdGroup := crdInstanceInput.CrdGroup
+
+	crdApiVersion := fmt.Sprintf("%s/%s", crdGroup, crdVersion)
+	crdPayloadAnnotation := fmt.Sprintf("%s/payload", crdGroup)
+	
+	gvr := schema.GroupVersionResource{
+		Resource: crdName,
+		Group:    crdGroup,
+		Version:  crdVersion,
+	}
+
+	var uid = uuid.NewUUID()
+	var requestId = string(uid)
+	if crdInstanceInput.Name == "" {
+		crdInstanceInput.Name = fmt.Sprintf("release-%s", requestId)
+	}
+	spec := crdInstanceInput.Spec
+
+	buff := bytes.Buffer{}
+	json.NewEncoder(&buff).Encode(&crdInstanceInput)
+	payload := buff.String()
+	
+	metadata[crdPayloadAnnotation] = payload
+
+	var resourceDef = unstructured.Unstructured{
+		Object: map[string]interface{}{
+			"kind":       requestKind,
+			"apiVersion": crdApiVersion,
+			"metadata": metadata,
+			"spec": spec,
+		},
+	}
+	crdResult, err := (*client.GetDynamicClient()).Resource(gvr).Namespace(crdInstanceInput.Namespace).
+		Create(context.TODO(), &resourceDef, metav1.CreateOptions{})
+
+	if err != nil {
+		log.Println("error creating crd instance", err)
+		return nil, err
+	}
+
+	return &CustomResourceResponse{
+		RequestId: requestId,
+		ResourceReference: &CustomResourceInstanceSummary{
+			Resource:  crdName,
+			Version:   crdVersion,
+			Group:     crdGroup,
+			Namespace: crdResult.GetNamespace(),
+			Name:      crdResult.GetName(),
+			Link: fmt.Sprintf("/api/crd-instance?resource-type=%s&resource-group=%s&resource-version=v1alpha1&namespace=%s&resource-name=%s",
+				crdName, crdGroup, crdResult.GetNamespace(), crdResult.GetName()),
+		},
+	}, nil
+}
+
 type CustomResourceInstance struct {
 	Spec     map[string]interface{} `json:"spec"`
 	Metadata map[string]interface{} `json:"metadata"`

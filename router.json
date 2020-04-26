@@ -9,7 +9,7 @@
   },
   "toggles": {
     "daemonset_endpoint": true,
-    "can_write_crds": true,
+    "can_write_crds": false,
     "can_read_crds": true
   },
   "variables": {

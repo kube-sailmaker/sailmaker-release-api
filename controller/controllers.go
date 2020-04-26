@@ -19,6 +19,10 @@ func Configure(configurer router.ApiConfigurer) {
 		Add("/api/crd-instance", getCrdInstance).
 		Add("/api/crds", getCrds).
 		Done().
-		PostIf(_settings.IsToggleOn("can_write_crds")).Register("/api/release", performRelease).
+		PostIf(_settings.IsToggleOn("can_write_crds")).
+			Register("/api/release", performRelease).
+		PostIf(_settings.IsToggleOn("can_write_crds")).
+			Add("/api/release/:release-name/apps/:app-id", updateRelease).
+		Done().
 		GetIf(_settings.IsToggleOn("daemonset_endpoint")).Register("/api/daemonsets", fetchDaemonsets)
 }
