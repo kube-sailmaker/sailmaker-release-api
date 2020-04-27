@@ -204,10 +204,10 @@ func UpdateCustomResourceInstance(metadata map[string]interface{}, crdInstanceIn
 		},
 	}
 	crdResult, err := (*client.GetDynamicClient()).Resource(gvr).Namespace(crdInstanceInput.Namespace).
-		Create(context.TODO(), &resourceDef, metav1.CreateOptions{})
+		Update(context.TODO(), &resourceDef, metav1.UpdateOptions{})
 
 	if err != nil {
-		log.Println("error creating crd instance", err)
+		log.Println("error updating crd instance", err)
 		return nil, err
 	}
 

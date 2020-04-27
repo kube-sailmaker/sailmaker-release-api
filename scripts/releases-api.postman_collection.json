@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0a6a0d63-e783-4600-b4a5-d88b547657c8",
+		"_postman_id": "990e3dde-0302-4b31-aef3-0a3ebfcbbab8",
 		"name": "releases-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -10,10 +10,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{k8s-base-url}}/api/namespaces",
 					"host": [
@@ -32,10 +28,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{k8s-base-url}}/api/deployments?namespace=any",
 					"host": [
@@ -60,10 +52,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{k8s-base-url}}/api/statefulsets?namespace=any",
 					"host": [
@@ -88,10 +76,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{k8s-base-url}}/api/crd-instance?namespace=default&resource-type=releaserequests&resource-group=deploy.kubesailmaker.io&resource-version=v1alpha1&resource-name=release-1",
 					"host": [
@@ -137,10 +121,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{k8s-base-url}}/api/crd-instances?namespace=default&resource-type=releaserequests&resource-group=deploy.kubesailmaker.io&resource-version=v1alpha1",
 					"host": [
@@ -181,10 +161,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{k8s-base-url}}/api/crds",
 					"host": [
@@ -203,10 +179,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{k8s-base-url}}/api/crd-instance?namespace=default&resource-type=cities&resource-group=world.io&resource-version=v1alpha1&resource-name=s-cities",
 					"host": [
@@ -252,10 +224,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{k8s-base-url}}/api/crd-instances?namespace=default&resource-type=cities&resource-group=world.io&resource-version=v1alpha1",
 					"host": [
@@ -297,7 +265,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "22e2d8d2-49ab-44b6-84f1-a8b2a9a7f4fe",
+						"id": "98d0e5cd-1c4d-40d7-9a1e-00e0615769fb",
 						"exec": [
 							"let thing = [\"apple\", \"shoe\", \"pot\", \"orange\", \"grass\", \"cow\", \"goat\", \"deer\", \"elephant\", \"cat\", \"meerkat\", \"dog\", \"tomato\", \"potato\"]",
 							"let adj = [\"tall\", \"bland\", \"nice\", \"golden\", \"brown\", \"smelly\", \"clean\", \"buffered\", \"overdue\", \"slow\", \"stretched\", \"fast\", \"shuffling\", \"quiet\", \"noisy\"]",
@@ -343,10 +311,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{k8s-base-url}}/api/jobs?namespace=any",
 					"host": [
@@ -365,6 +329,83 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Update App Status",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"adimono\",\n\t\"version\": \"1.0\",\n\t\"status\": \"QUEUED\",\n\t\"resource\": {\n\t\t\"name\": \"adimono-deployment\",\n\t\t\"type\": \"deployment\",\n\t\t\"created\": \"2020-04-27T13:08:17Z\",\n\t\t\"updated\": \"2020-04-27T13:08:17Z\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{k8s-base-url}}/api/release/release-1/apps/adimono?namespace=default",
+					"host": [
+						"{{k8s-base-url}}"
+					],
+					"path": [
+						"api",
+						"release",
+						"release-1",
+						"apps",
+						"adimono"
+					],
+					"query": [
+						{
+							"key": "namespace",
+							"value": "default"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get release-1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{k8s-base-url}}/api/crd-instance?resource-group=deploy.kubesailmaker.io&resource-type=releaserequests&resource-version=v1alpha1&namespace=default&resource-name=release-1",
+					"host": [
+						"{{k8s-base-url}}"
+					],
+					"path": [
+						"api",
+						"crd-instance"
+					],
+					"query": [
+						{
+							"key": "resource-group",
+							"value": "deploy.kubesailmaker.io"
+						},
+						{
+							"key": "resource-type",
+							"value": "releaserequests"
+						},
+						{
+							"key": "resource-version",
+							"value": "v1alpha1"
+						},
+						{
+							"key": "namespace",
+							"value": "default"
+						},
+						{
+							"key": "resource-name",
+							"value": "release-1"
+						}
+					]
+				}
+			},
+			"response": []
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

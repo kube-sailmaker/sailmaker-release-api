@@ -8,6 +8,7 @@ import (
 	"github.com/skhatri/api-router-go/router/model"
 	"github.com/skhatri/kube-sailmaker-release/k8s/middleware"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"strings"
 )
 
 func getCrdInstance(web *router.WebRequest) *model.Container {
@@ -131,25 +132,33 @@ func updateRelease(web *router.WebRequest) *model.Container {
 		}, 400)
 	}
 	metadata := resourceInstance.Metadata
-	//resourceVersion := metadata["resourceVersion"]
 
 	appsSpec := resourceInstance.Spec
 
 	existingPayloadBuffer := bytes.Buffer{}
-	json.NewEncoder(&existingPayloadBuffer).Encode(&appsSpec)
-	existingPayload := buff.String()
+	json.NewEncoder(&existingPayloadBuffer).Encode(appsSpec)
+	existingPayload := existingPayloadBuffer.String()
 
 	apps := AppSpec{}
 	json.NewDecoder(bytes.NewBuffer([]byte(existingPayload))).Decode(&apps)
 
 	updatedList := make([]AppItem, 0)
 	found := false
+	appNames := make([]string, 0)
 	for _, app := range apps.Apps {
-		if appId == app.Name &&
-			updateRequest.Name == app.Name &&
+		appName := app.Name
+		if app.Alias != "" {
+			appName = app.Alias
+		}
+		fmt.Println(appId, "=", appName, " ", appName, "=", updateRequest.Name, " ", app.Version, "=", updateRequest.Version)
+		if appId == appName &&
+			updateRequest.Name == appName &&
 			updateRequest.Version == app.Version {
 
 			appMetadata := app.Metadata
+			if appMetadata == nil {
+				appMetadata = make(map[string]string)
+			}
 			appMetadata["resource/name"] = updateRequest.Resource.Name
 			appMetadata["resource/created"] = updateRequest.Resource.Created
 			appMetadata["resource/type"] = updateRequest.Resource.Type
@@ -157,6 +166,7 @@ func updateRelease(web *router.WebRequest) *model.Container {
 
 			updatedList = append(updatedList, AppItem{
 				Name:     app.Name,
+				Alias: app.Alias,
 				Version:  app.Version,
 				Status:   updateRequest.Status,
 				Metadata: appMetadata,
@@ -165,12 +175,13 @@ func updateRelease(web *router.WebRequest) *model.Container {
 		} else {
 			updatedList = append(updatedList, app)
 		}
+		appNames = append(appNames, appName)
 	}
 
 	if !found {
 		return model.ErrorResponse(model.MessageItem{
 			Code:    "update-error",
-			Message: fmt.Sprintf("unknown app %s in release %s", appId, releaseName),
+			Message: fmt.Sprintf("unknown app %s in release %s, available apps [%s]", appId, releaseName, strings.Join(appNames, ", ")),
 		}, 400)
 	}
 
@@ -214,6 +225,7 @@ type AppSpec struct {
 
 type AppItem struct {
 	Name     string            `json:"name"`
+	Alias    string            `json:"alias"`
 	Version  string            `json:"version"`
 	Metadata map[string]string `json:"metadata""`
 	Status   string            `json:"status"`

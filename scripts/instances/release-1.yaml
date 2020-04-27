@@ -5,11 +5,11 @@ metadata:
 spec:
   apps:
     - name: adimono
-      version: 1.0
+      version: "1.0"
 
     - name: forcg
-      version: 1.0
+      version: "1.0"
 
     - name: forcg
-      version: 1.0
+      version: "1.0"
       alias: forcg-2
