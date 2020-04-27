@@ -150,7 +150,6 @@ func updateRelease(web *router.WebRequest) *model.Container {
 		if app.Alias != "" {
 			appName = app.Alias
 		}
-		fmt.Println(appId, "=", appName, " ", appName, "=", updateRequest.Name, " ", app.Version, "=", updateRequest.Version)
 		if appId == appName &&
 			updateRequest.Name == appName &&
 			updateRequest.Version == app.Version {
