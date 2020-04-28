@@ -91,7 +91,8 @@ func performRelease(web *router.WebRequest) *model.Container {
 }
 
 type ReleaseRequestSpec struct {
-	Apps []*ReleaseItem `json:"apps"`
+	Namespace string         `json:"release-namespace"`
+	Apps      []*ReleaseItem `json:"apps"`
 }
 
 type ReleaseItem struct {
@@ -165,7 +166,7 @@ func updateRelease(web *router.WebRequest) *model.Container {
 
 			updatedList = append(updatedList, AppItem{
 				Name:     app.Name,
-				Alias: app.Alias,
+				Alias:    app.Alias,
 				Version:  app.Version,
 				Status:   updateRequest.Status,
 				Metadata: appMetadata,
